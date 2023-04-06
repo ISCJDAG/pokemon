@@ -33,18 +33,18 @@ class _HomePageState extends State<HomePage> {
     });
 
     count = Provider.of<HomeProvider>(context, listen: false).counterPokemon;
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (!isloading) {
-          setState(() {
-            ////loadPokemons();
-            Provider.of<HomeProvider>(context, listen: false)
-                .getPokemons(serachText.text, context);
-          });
-        }
-      }
-    });
+    // _scrollController.addListener(() {
+    //   if (_scrollController.position.pixels ==
+    //       _scrollController.position.maxScrollExtent) {
+    //     if (!isloading) {
+    //       setState(() {
+    //         ////loadPokemons();
+    //         Provider.of<HomeProvider>(context, listen: false)
+    //             .getPokemons(serachText.text, context);
+    //       });
+    //     }
+    //   }
+    // });
     super.initState();
   }
 

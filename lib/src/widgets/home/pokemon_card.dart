@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pokemon/src/models/info_pokemon_model.dart';
+import 'package:pokemon/src/pages/pokemon_detail.dart';
 
 class PokemonCard extends StatelessWidget {
   final InfoPokemonModel pokemon;
@@ -22,13 +23,13 @@ class PokemonCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           //send to pokemon detail
-          // Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => PokemonDetail(
-          //           pokemon: pokemon,
-          //         ),
-          //       ));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PokemonDetail(
+                  pokemon: pokemon,
+                ),
+              ));
         },
         child: Card(
           color: Colors.white,
@@ -38,7 +39,20 @@ class PokemonCard extends StatelessWidget {
             children: [
               Hero(
                 tag: pokemon.id,
-                child: Image.network(pokemon.imageUrl),
+                child: Image.network(
+                  pokemon.imageUrl,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           ),

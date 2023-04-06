@@ -17,7 +17,7 @@ class HomeProvider with ChangeNotifier {
   late RoundedLoadingButtonController btnSearchController =
       RoundedLoadingButtonController();
   late List<InfoPokemonModel> listPokemon = [];
-  late bool isLoading = false;
+  late bool isLoading = true;
   late int counterPokemon = 0;
 
   getPokemons(String text, BuildContext context) async {
