@@ -13,8 +13,11 @@ class PokemonCard extends StatelessWidget {
     w = MediaQuery.of(context).size.width;
     h = MediaQuery.of(context).size.height;
     return GridTile(
-      footer: Center(
-        child: Text(pokemon.name),
+      footer: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Center(
+          child: Text(pokemon.name),
+        ),
       ),
       child: InkWell(
         onTap: () {

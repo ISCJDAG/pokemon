@@ -24,6 +24,7 @@ class HomeProvider with ChangeNotifier {
     try {
       isLoading = true;
       String url = '';
+      listPokemon = [];
       Map<String, String> header = {
         "Content-Type": "application/json",
       };
@@ -31,7 +32,8 @@ class HomeProvider with ChangeNotifier {
       if (text.isNotEmpty) {
         //
         url = '${apiRoutes.urlDefult}$text';
-        getPokemonData(url);
+        await getPokemonData(url);
+        btnSearchController.reset();
       } else {
         //
         url = '${apiRoutes.urlDefult}?limit=30&offset=0';
@@ -79,14 +81,16 @@ class HomeProvider with ChangeNotifier {
     }
   }
 
-  void getPokemonData(String url) async {
+  getPokemonData(String url) async {
     var response = await http.get(Uri.parse(url));
-    var decodedJson = jsonDecode(response.body);
+    if (response.body != "Not Found") {
+      var decodedJson = jsonDecode(response.body);
+      var pokemon = InfoPokemonModel.fromJson(decodedJson);
 
-    var pokemon = InfoPokemonModel.fromJson(decodedJson);
+      listPokemon.add(pokemon);
+      listPokemon.sort((a, b) => a.id.compareTo(b.id));
+    } else {}
 
-    listPokemon.add(pokemon);
-    listPokemon.sort((a, b) => a.id.compareTo(b.id));
     isLoading = false;
     notifyListeners();
   }

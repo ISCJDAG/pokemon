@@ -22,10 +22,15 @@ class _HomePageState extends State<HomePage> {
   final ScrollController _scrollController = ScrollController();
   late bool isloading;
   late int count;
+  var loadPokemons;
   @override
   void initState() {
     isloading = Provider.of<HomeProvider>(context, listen: false).isLoading;
     //loadPokemos
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<HomeProvider>(context, listen: false)
+          .getPokemons(serachText.text, context);
+    });
 
     count = Provider.of<HomeProvider>(context, listen: false).counterPokemon;
     _scrollController.addListener(() {
@@ -34,6 +39,8 @@ class _HomePageState extends State<HomePage> {
         if (!isloading) {
           setState(() {
             ////loadPokemons();
+            Provider.of<HomeProvider>(context, listen: false)
+                .getPokemons(serachText.text, context);
           });
         }
       }
@@ -104,6 +111,7 @@ class _HomePageState extends State<HomePage> {
             if (serachText.text.isEmpty) {
               FocusManager.instance.primaryFocus?.unfocus();
               //function to reload the 30 pokemons in provider
+              provider.getPokemons(serachText.text, context);
             }
           },
           inputFormatters: [
